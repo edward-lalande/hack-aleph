@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { Box, Typography, Button, Divider, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { Box, Typography, Button, Divider, List, ListItem, ListItemText, ListItemIcon, ListItemButton, Icon, Avatar } from '@mui/material';
 import { Chat as ChatIcon, Person as PersonIcon, Description as DescriptionIcon, Add as AddIcon, Folder } from '@mui/icons-material';
+import SvgIcon from '@mui/material/SvgIcon';
 
 const DocumentsSideBar: React.FC = () => {
     const navigate = useNavigate();
@@ -14,51 +15,55 @@ const DocumentsSideBar: React.FC = () => {
         <Box sx={{
             display: "flex",
             flexDirection: "column",
-            height: "93vh",
-            width: "20vw",
-            borderTopLeftRadius: "40px",
-            borderBottomLeftRadius: "40px",
+            height: "96vh",
+            width: "18vw",
             padding: "2vh"
-        }}>
-
-            <Typography variant="h5" sx={{ marginBottom: '20px', color: "#508691", fontSize: "1.2vw", fontWeight: 600 }}>HACKATHON ELEPH</Typography>
+        }}> 
+            <Box sx={{
+                display: "flex", 
+                flexDirection: "row",
+                alignSelf: "center"
+            }}>
+                <Icon sx={{height: "3.6vw", width: "3.6vw"}}>
+                    <img src="logo.svg" alt="logo" style={{height: "100%", width: "100%"}}/>
+                </Icon>
+                <Typography variant="h5" sx={{ fontFamily: 'Montserrat', marginLeft: "1vw", marginTop: "1vh", color: "#47AFF6", fontSize: "2vw", fontWeight: 600 }}>D-ASK</Typography>
+            </Box>
 
             <Button
                 variant="contained"
-                startIcon={<AddIcon />}
-                sx={{ marginBottom: '1vh', width: '100%', backgroundColor: "#508691", '&:hover': { backgroundColor: '#508691' } }}
-
+                sx={{ fontSize: "0.8vw", textTransform: "none", borderRadius: "50px", marginTop: "2vh", padding: "0.6vw", fontWeight: 600, fontFamily: 'Montserrat', marginBottom: '2vh', width: '75%', backgroundColor: "#47AFF6", '&:hover': {backgroundColor: '#1f6ca1'}, alignSelf: "center"}}
             >
-                Créer une section
+                Créer un espace
             </Button>
-            <Divider sx={{ marginBottom: '10px' }} />
             <List sx={{ flexGrow: 1 }}>
-                <ListItem button>
-                    <ListItemIcon>
-                        <Folder />
+                <ListItemButton>
+                    <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "white"}}>
+                        <img src="folder.svg" alt="folder"/>
                     </ListItemIcon>
-                    <ListItemText primary="Nom de la section" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <Folder />
+                    <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>Espace personnel</Typography>
+                </ListItemButton>
+                <ListItemButton>
+                    <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "white"}}>
+                        <img src="folder.svg" alt="folder"/>
                     </ListItemIcon>
-                    <ListItemText primary="Nom de la section" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <Folder />
+                    <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>Projet Aleph</Typography>
+                </ListItemButton>
+                <ListItemButton>
+                    <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "white"}}>
+                        <img src="folder.svg" alt="folder"/>
                     </ListItemIcon>
-                    <ListItemText primary="Nom de la section" />
-                </ListItem>
+                    <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>Equipe Epitech</Typography>
+                </ListItemButton>
             </List>
-            <Divider sx={{ marginBottom: "1vh" }} />
             <Button
-                variant="contained"
-                startIcon={<PersonIcon />}
-                sx={{ marginBottom: '1vh', width: '100%', backgroundColor: "#508691", '&:hover': { backgroundColor: '#508691' } }}
+                variant="outlined"
+                sx={{ fontSize: "0.8vw", textTransform: "none", borderRadius: "50px", color: "#b95d5d", marginBottom: "2.5vh", border: 0, padding: "0.6vw", fontWeight: 600, backgroundColor: "transparent", fontFamily: 'Montserrat', width: '75%', alignSelf: "center", '&:hover': {border: 0, backgroundColor: '#e7bdbd'}}}
             >
-                Mon profil
+                <Icon sx={{height: "1.8vw", width: "1.8vw", marginRight: "1vw"}}>
+                    <img src="logout.svg" alt="logo" style={{height: "100%", width: "100%"}}/>
+                </Icon>
+                Déconnexion
             </Button>
         </Box>
     );
