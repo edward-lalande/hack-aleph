@@ -39,7 +39,7 @@ const HomeChat: React.FC = () => {
                     borderRadius: "30px",
                     marginTop: "30px",
                     height: "45vh",
-                    width: "65vw",
+                    width: "55vw",
                     overflow: "hidden",
                 }}>
                     {folders.map((_, index) => (

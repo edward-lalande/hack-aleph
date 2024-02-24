@@ -2,6 +2,7 @@ import React from 'react';
 import HomeSideBar from './HomeSideBar';
 import HomeChat from './HomeChat';
 import { Box, Divider } from '@mui/material';
+import DocumentsSideBar from './DocumentsSideBar';
 
 const Home: React.FC = () => {
     return (
@@ -13,9 +14,11 @@ const Home: React.FC = () => {
             border: "4px solid #508691",
             borderRadius: "40px",
         }}>
-            <HomeSideBar />
+            <DocumentsSideBar />
             <Divider orientation='vertical' variant='middle' flexItem sx={{color: "#508691"}}/>
             <HomeChat />
+            <Divider orientation='vertical' variant='middle' flexItem sx={{color: "#508691"}}/>
+            <HomeSideBar />
         </Box>
     );
 };
