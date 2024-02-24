@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Button, Divider, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
-import { Chat as ChatIcon, Person as PersonIcon, Description as DescriptionIcon, Add as AddIcon } from '@mui/icons-material';
+import { Chat as ChatIcon, Person as PersonIcon, Description as DescriptionIcon, Add as AddIcon, Folder } from '@mui/icons-material';
 
 const DocumentsSideBar: React.FC = () => {
     const navigate = useNavigate();
@@ -25,14 +25,6 @@ const DocumentsSideBar: React.FC = () => {
 
             <Button
                 variant="contained"
-                startIcon={<ChatIcon />}
-                sx={{ marginBottom: '1vh', width: '100%', backgroundColor: "#508691", '&:hover': { backgroundColor: '#508691' } }}
-                onClick={handleNavigationToHome}
-            >
-                Mes Discussion
-            </Button>
-            <Button
-                variant="contained"
                 startIcon={<AddIcon />}
                 sx={{ marginBottom: '1vh', width: '100%', backgroundColor: "#508691", '&:hover': { backgroundColor: '#508691' } }}
 
@@ -43,7 +35,19 @@ const DocumentsSideBar: React.FC = () => {
             <List sx={{ flexGrow: 1 }}>
                 <ListItem button>
                     <ListItemIcon>
-                        <DescriptionIcon />
+                        <Folder />
+                    </ListItemIcon>
+                    <ListItemText primary="Nom de la section" />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <Folder />
+                    </ListItemIcon>
+                    <ListItemText primary="Nom de la section" />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <Folder />
                     </ListItemIcon>
                     <ListItemText primary="Nom de la section" />
                 </ListItem>

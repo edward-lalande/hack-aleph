@@ -22,14 +22,6 @@ const HomeSideBar: React.FC = () => {
         }}>
             <Button
                 variant="contained"
-                startIcon={<DescriptionIcon />}
-                sx={{ marginBottom: '1vh', width: '100%', backgroundColor: "#508691", '&:hover': { backgroundColor: '#508691' } }}
-                onClick={handleNavigationToDocuments}
-            >
-                Mes documents
-            </Button>
-            <Button
-                variant="contained"
                 startIcon={<AddIcon />}
                 sx={{ marginBottom: '1vh', width: '100%', backgroundColor: "#508691", '&:hover': { backgroundColor: '#508691' } }}
 
@@ -45,7 +37,6 @@ const HomeSideBar: React.FC = () => {
                     <ListItemText primary="Nom de la discussion" />
                 </ListItem>
             </List>
-            <Divider sx={{ marginBottom: "1vh" }} />
         </Box>
     );
 };
