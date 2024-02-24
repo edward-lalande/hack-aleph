@@ -2,15 +2,15 @@ from time import time
 import sqlite3
 
 class Channel:
-    def __init__(self, owner_id, channel_id, nom):
+    def __init__(self, owner_id, channel_id, name):
         self.owner_id   = owner_id
         self.channel_id = channel_id
-        self.nom        = nom
+        self.name        = name
         self.created_at = int(time())
         self.updated_at = int(time())
 
     def to_row(self):
-        return (self.owner_id, self.channel_id, self.nom, self.created_at, self.updated_at)
+        return (self.owner_id, self.channel_id, self.name, self.created_at, self.updated_at)
 
 class Message:
     def __init__(self, owner_id, channel_id, msg_id):
@@ -23,16 +23,16 @@ class Message:
         return (self.owner_id, self.channel_id, self.msg_id, self.created_at)
 
 class Folder:
-    def __init__(self, owner_id, folder_id, nom, favorite):
+    def __init__(self, owner_id, folder_id, name, favorite):
         self.owner_id   = owner_id
         self.folder_id  = folder_id
-        self.nom        = nom
+        self.name        = name
         self.created_at = int(time())
         self.updated_at = int(time())
         self.favorite   = favorite
 
     def to_row(self):
-        return (self.owner_id, self.folder_id, self.nom, self.created_at, self.updated_at, self.favorite)
+        return (self.owner_id, self.folder_id, self.name, self.created_at, self.updated_at, self.favorite)
 
 class Document:
     def __init__(self, owner_id, folder_id, doc_type, doc_id):
@@ -50,10 +50,10 @@ class Database:
         self.conn = sqlite3.connect("dasck.db")
         cursor = self.conn.cursor()
 
-        cursor.execute("CREATE TABLE IF NOT EXISTS channels (owner_id TEXT, channel_id TEXT, nom TEXT, created_at TEXT, updated_at TEXT)")
+        cursor.execute("CREATE TABLE IF NOT EXISTS channels (owner_id TEXT, channel_id TEXT, name TEXT, created_at TEXT, updated_at TEXT)")
         cursor.execute("CREATE TABLE IF NOT EXISTS messages (owner_id TEXT, channel_id TEXT, msg_id TEXT, created_at TEXT)")
 
-        cursor.execute("CREATE TABLE IF NOT EXISTS folders (owner_id TEXT, folder_id TEXT, nom TEXT, created_at TEXT, updated_at TEXT, favorite INTEGER)")
+        cursor.execute("CREATE TABLE IF NOT EXISTS folders (owner_id TEXT, folder_id TEXT, name TEXT, created_at TEXT, updated_at TEXT, favorite INTEGER)")
         cursor.execute("CREATE TABLE IF NOT EXISTS documents (owner_id TEXT, folder_id TEXT, doc_type TEXT, doc_id TEXT, created_at TEXT)")
 
         self.conn.commit()
