@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Box, Typography, Button, Divider, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
 import { Chat as ChatIcon, Person as PersonIcon, Description as DescriptionIcon, Add as AddIcon } from '@mui/icons-material';
 
-const HomeSideBar: React.FC = () => {
+const DocumentsSideBar: React.FC = () => {
     const navigate = useNavigate();
 
-    function handleNavigationToDocuments() {
-      navigate("/documents");
+    function handleNavigationToHome() {
+      navigate("/");
     };
 
     return (
@@ -25,11 +25,11 @@ const HomeSideBar: React.FC = () => {
 
             <Button
                 variant="contained"
-                startIcon={<DescriptionIcon />}
+                startIcon={<ChatIcon />}
                 sx={{ marginBottom: '1vh', width: '100%', backgroundColor: "#508691", '&:hover': { backgroundColor: '#508691' } }}
-                onClick={handleNavigationToDocuments}
+                onClick={handleNavigationToHome}
             >
-                Mes documents
+                Mes Discussion
             </Button>
             <Button
                 variant="contained"
@@ -37,15 +37,15 @@ const HomeSideBar: React.FC = () => {
                 sx={{ marginBottom: '1vh', width: '100%', backgroundColor: "#508691", '&:hover': { backgroundColor: '#508691' } }}
 
             >
-                Créer une discussion
+                Créer une section
             </Button>
             <Divider sx={{ marginBottom: '10px' }} />
             <List sx={{ flexGrow: 1 }}>
                 <ListItem button>
                     <ListItemIcon>
-                        <ChatIcon />
+                        <DescriptionIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Nom de la discussion" />
+                    <ListItemText primary="Nom de la section" />
                 </ListItem>
             </List>
             <Divider sx={{ marginBottom: "1vh" }} />
@@ -60,4 +60,4 @@ const HomeSideBar: React.FC = () => {
     );
 };
 
-export default HomeSideBar;
+export default DocumentsSideBar;

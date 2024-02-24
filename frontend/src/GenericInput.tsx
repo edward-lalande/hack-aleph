@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, TextField, InputAdornment, IconButton } from '@mui/material';
+import { TextField, InputAdornment, IconButton } from '@mui/material';
 
 interface GenericInputProps {
     labelName: string;

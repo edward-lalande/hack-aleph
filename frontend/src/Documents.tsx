@@ -1,12 +1,21 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import DocumentsSideBar from './DocumentsSideBar';
+import HomeChat from './HomeChat';
+import { Box, Divider } from '@mui/material';
 
 const Documents: React.FC = () => {
     return (
-        <div>
-            <Typography variant="h2">Documents</Typography>
-            <Typography variant="body1">Bienvenue sur la page des documents de notre application.</Typography>
-        </div>
+        <Box sx={{
+            display: "flex",
+            height: "97vh",
+            flexDirection: "row",
+            margin: "1vh",
+            border: "4px solid #508691",
+            borderRadius: "40px",
+        }}>
+            <DocumentsSideBar />
+            <Divider orientation='vertical' variant='middle' flexItem sx={{color: "#508691"}}/>
+        </Box>
     );
 };
 
