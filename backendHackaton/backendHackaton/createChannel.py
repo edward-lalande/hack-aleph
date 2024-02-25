@@ -11,13 +11,13 @@ class CreateChannel(APIView):
         cursor = conn.cursor()
         channelName = "Nouveau Channel"
         cursor.execute("CREATE TABLE IF NOT EXISTS channels (owner_id TEXT, channel_id INTEGER PRIMARY KEY , name TEXT, created_at TEXT, updated_at TEXT)")
-        cursor.execute("SELECT * FROM channels WHERE name=\"" + channelName + "\"")
 
-        for i in range (len(cursor.fetchall()) != 0):
+        db = cursor.execute("SELECT * FROM channels WHERE name LIKE '%"+channelName+"%'").fetchall()
+
+        i = len(db)
+        if i > 0:
             channelName = "Nouveau Channel " + str(i)
-            cursor.execute("SELECT * FROM channels WHERE name=\"" + channelName + "\"")
 
-        cursor.execute("SELECT * FROM channels WHERE name=\"" + channelName + "\"")
         cursor.execute("INSERT INTO channels (owner_id, name) VALUES (\"" + userHash + "\", \"" + channelName + "\")")
         conn.commit()
         cursor.close()

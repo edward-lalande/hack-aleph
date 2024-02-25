@@ -15,13 +15,12 @@ class CreateWorkSpace(APIView):
         cursor = conn.cursor()
         workSpaceName = "Nouvel Espace"
         cursor.execute("CREATE TABLE IF NOT EXISTS folders (owner_id TEXT, folder_id INTEGER PRIMARY KEY , name TEXT, created_at TEXT, updated_at TEXT, favorite INTEGER)")
-        cursor.execute("SELECT * FROM folders WHERE name=\"" + workSpaceName + "\"")
+        db = cursor.execute("SELECT * FROM folders WHERE name LIKE '%"+workSpaceName+"%'").fetchall()
 
-        for i in range (len(cursor.fetchall()) != 0):
+        i = len(db)
+        if i > 0:
             workSpaceName = "Nouvel Espace " + str(i)
-            cursor.execute("SELECT * FROM folders WHERE name=\"" + workSpaceName + "\"")
 
-        cursor.execute("SELECT * FROM folders WHERE name=\"" + workSpaceName + "\"")
         cursor.execute("INSERT INTO folders (owner_id, name, favorite) VALUES (\"" + userHash + "\", \"" + workSpaceName + "\", 0)")
         conn.commit()
         cursor.close()
