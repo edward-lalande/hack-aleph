@@ -14,5 +14,5 @@ class DeleteDocument(APIView):
 
         conn.commit()
         cursor.close()
-        return Response({'message': ""+document_name+" supprimé avec succès.'}, status=status.HTTP_200_OK)
+        return Response({'message': ""+document_name+" supprimé avec succès."}, status=status.HTTP_200_OK)
 

@@ -4,6 +4,10 @@ from .createChannel import CreateChannel
 from .createDocument import CreateDocument
 from .createMessage import CreateMessage
 
+from .deleteWorkSpace import DeleteWorkSpace
+from .deleteChannel   import DeleteChannel
+from .deleteDocument  import DeleteDocument
+
 from .getWorkSpace import GetWorkSpace
 from .getChannel import GetChannel
 from .getDocument import GetDocument
