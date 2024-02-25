@@ -45,7 +45,7 @@ class Document:
 
 class Database:
     def __init__(self):
-        self.conn = sqlite3.connect("dasck.db")
+        self.conn = sqlite3.connect("dask.db")
         cursor = self.conn.cursor()
 
         cursor.execute("CREATE TABLE IF NOT EXISTS channels (owner_id TEXT, channel_id INTEGER PRIMARY KEY, name TEXT, created_at TEXT, updated_at TEXT)")
