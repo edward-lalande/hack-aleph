@@ -13,10 +13,10 @@ class CreateChannel(APIView):
         cursor.execute("SELECT * FROM channels WHERE name=\"" + channelName + "\"")
 
         for i in range (len(cursor.fetchall()) != 0):
-            workSpaceName = "Nouveau Canal" + str(i)
+            channelName = "Nouveau Canal" + str(i)
             cursor.execute("SELECT * FROM channels WHERE name=\"" + channelName + "\"")
 
         cursor.execute("SELECT * FROM channels WHERE name=\"" + channelName + "\"")
-        cursor.execute("INSERT INTO channels (owner_id, name) VALUES (\"" + userHash + "\", \"" + channelName"\")")
+        cursor.execute("INSERT INTO channels (owner_id, name) VALUES (\"" + userHash + "\", \"" + channelName + "\")")
         cursor.close()
         return Response({'message': channel_name}, status=status.HTTP_200_OK)
