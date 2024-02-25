@@ -2,16 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, ListItemButton, List, ListItemIcon, Icon } from '@mui/material';
 import axios from 'axios'
 
+interface Workspace {
+    ownerId: string;
+    channelId: string;
+    name: string;
+}
+
 const DocumentsSideBar: React.FC = () => {
-    const [workspaces, setWorkspaces] = useState<string[]>([]);
-    const workSpace = (name: string) => (
-        <ListItemButton>
+    const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+
+    const workSpace = (name: string, index: number) => (
+        <ListItemButton key={index}>
             <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "white"}}>
                 <img src="folder.svg" alt="folder"/>
             </ListItemIcon>
             <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>{name}</Typography>
         </ListItemButton>
     );
+
+    const getWorkSpace = () => {
+        axios.get("http://127.0.0.1:8000/get-work-space/0xabe50DeDc380716a0c18D06840C3FA9E8B682237")
+        .then(rep => {
+            if (typeof(rep.data) === "string") {
+                setWorkspaces(JSON.parse(rep.data));
+            } else {
+                setWorkspaces(rep.data);
+            }
+            console.log(rep.data);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
     const createNewSpace = () => {
         const body = {
@@ -21,16 +42,7 @@ const DocumentsSideBar: React.FC = () => {
         axios.post('http://127.0.0.1:8000/add-work-space/', body)
         .then(rep => {
             console.log(rep);
-        }).catch(err => {
-            console.log(err);
-        })
-    }
-
-    const getWorkSpace = () => {
-        axios.get('http://127.0.0.1:8000/get-work-space/', { params: { 'user_hash': "0xabe50DeDc380716a0c18D06840C3FA9E8B682237" } })
-        .then(rep => {
-            setWorkspaces(rep.data);
-            console.log(rep);
+            getWorkSpace();
         }).catch(err => {
             console.log(err);
         })
@@ -67,8 +79,8 @@ const DocumentsSideBar: React.FC = () => {
                 Créer un espace
             </Button>
             <List sx={{ flexGrow: 1 }}>
-                {workspaces.map((name, _) => (
-                    workSpace(name)
+                {workspaces && workspaces.map((workspace, index) => (
+                    workSpace(workspace.name, index)
                 ))}
             </List>
             <Button

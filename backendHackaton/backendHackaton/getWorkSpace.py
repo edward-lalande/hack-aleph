@@ -7,10 +7,10 @@ import sqlite3
 class GetWorkSpace(APIView):
     renderer_classes = [JSONRenderer]
 
-    def get(self, request):
-        userHash = request.data.get('user_hash')
+    def get(self, request, id):
+        userHash = id
         print("args: ", request)
-        conn = sqlite3.connect("dasck.db")
+        conn = sqlite3.connect("dask.db")
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM folders WHERE owner_id=\"" + userHash + "\"")
 

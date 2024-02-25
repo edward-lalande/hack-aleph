@@ -9,7 +9,7 @@ class GetChannel(APIView):
 
     def get(self, _):
         data = {"channel_name": "channel_name"}
-        userHash  = request.data.get('user_hash')
+        userHash = request.data.get('user_hash')
         
         conn = sqlite3.connect("dask.db")
         cursor = conn.cursor()
