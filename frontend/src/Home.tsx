@@ -13,7 +13,6 @@ const Home: React.FC = () => {
             background: 'linear-gradient(135deg, rgba(102, 126, 234, 1), rgba(118, 75, 162, 1))',
         }}>
             <DocumentsSideBar />
-            <HomeChat />
             <HomeSideBar />
         </Box>
     );

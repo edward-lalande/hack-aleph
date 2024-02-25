@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Avatar, Typography, Button, List, ListItemButton, ListItemIcon } from '@mui/material';
 import axios from 'axios';
-import { ClassOutlined } from '@mui/icons-material';
 
 interface Channel {
     ownerId: string;
