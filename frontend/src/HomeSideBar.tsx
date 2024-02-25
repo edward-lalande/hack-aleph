@@ -1,15 +1,7 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
-import { Box, Typography, Button, Divider, List, ListItem, ListItemText, ListItemIcon, ListItemButton, Avatar } from '@mui/material';
-import { Chat as ChatIcon, Person as PersonIcon, Description as DescriptionIcon, Add as AddIcon } from '@mui/icons-material';
+import { Box, Avatar, Typography, List, ListItemButton, ListItemIcon } from '@mui/material';
 
 const HomeSideBar: React.FC = () => {
-    const navigate = useNavigate();
-
-    function handleNavigationToDocuments() {
-      navigate("/documents");
-    };
-
     return (
         <Box sx={{
             display: "flex",

@@ -2,10 +2,9 @@ from time import time
 import sqlite3
 
 class Channel:
-    def __init__(self, owner_id, channel_id, name):
+    def __init__(self, owner_id, name):
         self.owner_id   = owner_id
-        self.channel_id = channel_id
-        self.name        = name
+        self.name       = name
         self.created_at = int(time())
         self.updated_at = int(time())
 
@@ -23,10 +22,9 @@ class Message:
         return (self.owner_id, self.channel_id, self.msg_id, self.created_at)
 
 class Folder:
-    def __init__(self, owner_id, folder_id, name, favorite):
+    def __init__(self, owner_id, name, favorite):
         self.owner_id   = owner_id
-        self.folder_id  = folder_id
-        self.name        = name
+        self.name       = name
         self.created_at = int(time())
         self.updated_at = int(time())
         self.favorite   = favorite
@@ -50,10 +48,10 @@ class Database:
         self.conn = sqlite3.connect("dasck.db")
         cursor = self.conn.cursor()
 
-        cursor.execute("CREATE TABLE IF NOT EXISTS channels (owner_id TEXT, channel_id TEXT, name TEXT, created_at TEXT, updated_at TEXT)")
+        cursor.execute("CREATE TABLE IF NOT EXISTS channels (owner_id TEXT, channel_id INTEGER PRIMARY KEY, name TEXT, created_at TEXT, updated_at TEXT)")
         cursor.execute("CREATE TABLE IF NOT EXISTS messages (owner_id TEXT, channel_id TEXT, msg_id TEXT, created_at TEXT)")
 
-        cursor.execute("CREATE TABLE IF NOT EXISTS folders (owner_id TEXT, folder_id TEXT, name TEXT, created_at TEXT, updated_at TEXT, favorite INTEGER)")
+        cursor.execute("CREATE TABLE IF NOT EXISTS folders (owner_id TEXT, folder_id INTEGER PRIMARY KEY , name TEXT, created_at TEXT, updated_at TEXT, favorite INTEGER)")
         cursor.execute("CREATE TABLE IF NOT EXISTS documents (owner_id TEXT, folder_id TEXT, doc_type TEXT, doc_id TEXT, created_at TEXT)")
 
         self.conn.commit()
@@ -110,5 +108,14 @@ class Database:
 
         self.conn.commit()
 
+    def fetchall(self, cmd):
+        return self.conn.cursor().fetchall(cmd)
+
+    def close(self):
+        return self.conn.cursor().close()
+
     def execute(self, cmd):
         return self.conn.cursor().execute(cmd)
+
+
+datab = Database()

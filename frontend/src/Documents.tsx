@@ -1,6 +1,5 @@
 import React from 'react';
 import DocumentsSideBar from './DocumentsSideBar';
-import HomeChat from './HomeChat';
 import { Box, Divider } from '@mui/material';
 
 const Documents: React.FC = () => {

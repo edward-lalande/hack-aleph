@@ -1,16 +1,45 @@
-import React from 'react';
-import { useNavigate } from "react-router-dom";
-import { Box, Typography, Button, Divider, List, ListItem, ListItemText, ListItemIcon, ListItemButton, Icon, Avatar } from '@mui/material';
-import { Chat as ChatIcon, Person as PersonIcon, Description as DescriptionIcon, Add as AddIcon, Folder } from '@mui/icons-material';
-import SvgIcon from '@mui/material/SvgIcon';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Button, ListItemButton, List, ListItemIcon, Icon } from '@mui/material';
+import axios from 'axios'
 
 const DocumentsSideBar: React.FC = () => {
-    const navigate = useNavigate();
+    const [workspaces, setWorkspaces] = useState<string[]>([]);
+    const workSpace = (name: string) => (
+        <ListItemButton>
+            <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "white"}}>
+                <img src="folder.svg" alt="folder"/>
+            </ListItemIcon>
+            <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>{name}</Typography>
+        </ListItemButton>
+    );
 
-    function handleNavigationToHome() {
-      navigate("/");
-    };
+    const createNewSpace = () => {
+        const body = {
+            'user_hash': "0xabe50DeDc380716a0c18D06840C3FA9E8B682237",
+        };
+        
+        axios.post('http://127.0.0.1:8000/add-work-space/', body)
+        .then(rep => {
+            console.log(rep);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
 
+    const getWorkSpace = () => {
+        axios.get('http://127.0.0.1:8000/get-work-space/', { params: { 'user_hash': "0xabe50DeDc380716a0c18D06840C3FA9E8B682237" } })
+        .then(rep => {
+            setWorkspaces(rep.data);
+            console.log(rep);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    useEffect(() => {
+        getWorkSpace();
+    }, []);
+    
     return (
         <Box sx={{
             display: "flex",
@@ -33,28 +62,14 @@ const DocumentsSideBar: React.FC = () => {
             <Button
                 variant="contained"
                 sx={{ fontSize: "0.8vw", textTransform: "none", borderRadius: "50px", marginTop: "2vh", padding: "0.6vw", fontWeight: 600, fontFamily: 'Montserrat', marginBottom: '2vh', width: '75%', backgroundColor: "#47AFF6", '&:hover': {backgroundColor: '#1f6ca1'}, alignSelf: "center"}}
+                onClick={createNewSpace}
             >
                 Créer un espace
             </Button>
             <List sx={{ flexGrow: 1 }}>
-                <ListItemButton>
-                    <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "white"}}>
-                        <img src="folder.svg" alt="folder"/>
-                    </ListItemIcon>
-                    <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>Espace personnel</Typography>
-                </ListItemButton>
-                <ListItemButton>
-                    <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "white"}}>
-                        <img src="folder.svg" alt="folder"/>
-                    </ListItemIcon>
-                    <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>Projet Aleph</Typography>
-                </ListItemButton>
-                <ListItemButton>
-                    <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "white"}}>
-                        <img src="folder.svg" alt="folder"/>
-                    </ListItemIcon>
-                    <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>Equipe Epitech</Typography>
-                </ListItemButton>
+                {workspaces.map((name, _) => (
+                    workSpace(name)
+                ))}
             </List>
             <Button
                 variant="outlined"
