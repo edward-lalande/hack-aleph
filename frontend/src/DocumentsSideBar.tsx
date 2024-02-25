@@ -101,11 +101,6 @@ const DocumentsSideBar: React.FC = () => {
                     Déconnexion
                 </Button>
             </Box>
-            {workSpaceSelected !== 0 ? (
-                <DisplayDocuments workspace={workspaces[workSpaceSelected]} />
-            ) : (
-                <HomeChat />
-            )}
     </>);
 };
 

@@ -10,31 +10,18 @@ interface Documents {
 }
 
 interface DisplayDocumentsProps {
-    Documents: Documents;
+    folderId: number; // Changement ici
 }
 
-interface Workspace {
-    createdAt: number;
-    favorite: boolean;
-    folderId: number;
-    ownerId: string;
-    name: string;
-    updatedAt: number;
-};
-
-interface WorkSpaceProps {
-    workspace: Workspace;
-}
-
-const DisplayDocuments: React.FC<WorkSpaceProps> = ({ workspace }) => {
+const DisplayDocuments: React.FC<DisplayDocumentsProps> = (folderId) => {
     const [documents, setDocuments] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        if (workspace) {
-            // console.log('channel id: ', workspace.folder_id);
+        if (folderId) {
+            // console.log('channel id: ', folderId.folder_id);
             const getworkspace = () => {
-                axios.get(`http://127.0.0.1:8000/get-document/0xabe50DeDc380716a0c18D06840C3FA9E8B682237/${workspace.folderId}`)
+                axios.get(`http://127.0.0.1:8000/get-document/0xabe50DeDc380716a0c18D06840C3FA9E8B682237/${folderId}`)
                     .then(rep => {
                         setDocuments(rep.data);
                         setLoading(false);
@@ -47,9 +34,9 @@ const DisplayDocuments: React.FC<WorkSpaceProps> = ({ workspace }) => {
 
             // getDocuments();
         }
-    }, [workspace]);
+    }, [folderId]);
 
-    if (!workspace) {
+    if (!folderId) {
         // Channel is not defined, return null or display an error message
         return null;
     }
