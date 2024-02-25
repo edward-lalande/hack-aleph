@@ -13,5 +13,9 @@ class GetChannel(APIView):
         conn = sqlite3.connect("dask.db")
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM channels WHERE owner_id=\"" + userHash + "\"")
+        
+        columns = [col[0] for col in cursor.description]
+        rows = cursor.fetchall()
+        data = [dict(zip(columns, row)) for row in rows]
 
-        return Response(cursor.fetchall(), status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)
