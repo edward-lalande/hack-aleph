@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import HomeSideBar from './HomeSideBar';
 import HomeChat from './HomeChat';
-import { Box, Avatar, Typography, Button, ListItemButton, List, ListItemIcon, Icon } from '@mui/material';
+import { Box, Typography, Button, ListItemButton, List, ListItemIcon, Icon, Avatar } from '@mui/material';
 import axios from 'axios';
 import DisplayDocuments from './DisplayDocuments';
 import Discussions from './Discussions';
@@ -25,7 +24,9 @@ interface Channel {
 
 const Home: React.FC = () => {
     const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
-    const [workSpaceSelected, setWorkSpaceSelected] = useState(0);
+    const [workSpaceSelected, setWorkSpaceSelected] = useState(-1);
+    const [isChannel, setIsChannel] = useState<boolean>(false);
+    const [channels, setChannels] = useState<Channel[]>([]);
 
     const workSpace = (workspace: Workspace, index: number) => (
         <ListItemButton key={index} onClick={() => handleWorkspaceClick(index)}>
@@ -38,6 +39,7 @@ const Home: React.FC = () => {
 
     const handleWorkspaceClick = (index: number) => {
         setWorkSpaceSelected(index);
+        setIsChannel(false);
     };
 
     const getWorkSpace = () => {
@@ -59,16 +61,54 @@ const Home: React.FC = () => {
             .then(rep => {
                 console.log(rep);
                 getWorkSpace();
+                setWorkSpaceSelected(0);
+                setIsChannel(false);
             })
             .catch(err => {
                 console.log(err);
             });
     };
 
+    const createChannel = () => {
+        const body = {
+            'user_hash': "0xabe50DeDc380716a0c18D06840C3FA9E8B682237",
+        };
+
+        axios.post('http://127.0.0.1:8000/add-channel/', body)
+            .then(rep => {
+                console.log(rep);
+                getChannel();
+                setWorkSpaceSelected(-1);
+                setIsChannel(true);
+            }).catch(err => {
+                console.log(err);
+            })
+    }
+
+    const ChannelComponent: React.FC<{ channel: Channel }> = ({ channel }) => (
+        <ListItemButton>
+            <ListItemIcon sx={{ height: "1.4vw", width: "1.4vw", color: "#858585" }}>
+                <img src="write.svg" alt="write" />
+            </ListItemIcon>
+            <Typography sx={{ fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white" }}>{channel.name}</Typography>
+        </ListItemButton>
+    );
+
+    const getChannel = () => {
+        axios.get("http://127.0.0.1:8000/get-channel/0xabe50DeDc380716a0c18D06840C3FA9E8B682237")
+            .then(rep => {
+                setChannels(rep.data);
+            }).catch(err => {
+                console.log(err);
+            })
+    }
+
     useEffect(() => {
-        getChannel(); // OUBLIE PAS
+        getChannel();
         getWorkSpace();
     }, []);
+
+    console.log('id: ', workspaces[workSpaceSelected]);
 
     const documentSideBar = (
         <Box sx={{
@@ -113,40 +153,6 @@ const Home: React.FC = () => {
         </Box>
     );
 
-    // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    const [isChannel, setIsChannel] = useState(0);
-    const ChannelComponent: React.FC<{ channel: Channel }> = ({ channel }) => (
-        <ListItemButton>
-            <ListItemIcon sx={{ height: "1.4vw", width: "1.4vw", color: "#858585" }}>
-                <img src="write.svg" alt="write" />
-            </ListItemIcon>
-            <Typography sx={{ fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white" }}>{channel.name}</Typography>
-        </ListItemButton>
-    );
-    const [channels, setChannels] = useState<Channel[]>([]);
-    const getChannel = () => {
-        axios.get("http://127.0.0.1:8000/get-channel/0xabe50DeDc380716a0c18D06840C3FA9E8B682237")
-            .then(rep => {
-                setChannels(rep.data);
-            }).catch(err => {
-                console.log(err);
-            })
-    }
-
-    const createChannel = () => {
-        const body = {
-            'user_hash': "0xabe50DeDc380716a0c18D06840C3FA9E8B682237",
-        };
-
-        axios.post('http://127.0.0.1:8000/add-channel/', body)
-            .then(rep => {
-                console.log(rep);
-                getChannel();
-            }).catch(err => {
-                console.log(err);
-            })
-    }
-
     const sideBar = (
         <Box sx={{
             display: "flex",
@@ -184,12 +190,6 @@ const Home: React.FC = () => {
         </Box>
     );
 
-    if (isChannel) {
-        setWorkSpaceSelected(0);
-    } else if (workSpaceSelected) {
-        setIsChannel(0);
-    }
-
     return (
         <Box sx={{
             display: "flex",
@@ -198,13 +198,12 @@ const Home: React.FC = () => {
             background: 'linear-gradient(135deg, rgba(102, 126, 234, 1), rgba(118, 75, 162, 1))',
         }}>
             {documentSideBar}
-            {!isChannel && !workSpaceSelected && <HomeChat />}
-            {!isChannel && workSpaceSelected && <DisplayDocuments folderId={2} />}
-            {isChannel && !workSpaceSelected && <Discussions channelId='hepj' />}
+            {!isChannel && workSpaceSelected < 0 && <HomeChat />}
+            {!isChannel && workSpaceSelected >= 0 && <DisplayDocuments folderId={workspaces[workSpaceSelected].folderId} />}
+            {isChannel && workSpaceSelected < 0 && <Discussions channelId='hepj' />}
             {sideBar}
         </Box>
     );
 };
-
 
 export default Home;
