@@ -5,6 +5,7 @@ import { Box, Avatar, Typography, Button, ListItemButton, List, ListItemIcon, Ic
 import axios from 'axios';
 import DisplayDocuments from './DisplayDocuments';
 import Discussions from './Discussions';
+import { channel } from 'diagnostics_channel';
 
 interface Workspace {
     createdAt: number;
@@ -115,8 +116,9 @@ const Home: React.FC = () => {
 
     // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     const [isChannel, setIsChannel] = useState(0);
+
     const ChannelComponent: React.FC<{ channel: Channel }> = ({ channel }) => (
-        <ListItemButton>
+        <ListItemButton onClick={() => setIsChannel(channel.channelId) }>
             <ListItemIcon sx={{ height: "1.4vw", width: "1.4vw", color: "#858585" }}>
                 <img src="write.svg" alt="write" />
             </ListItemIcon>
@@ -198,9 +200,9 @@ const Home: React.FC = () => {
             background: 'linear-gradient(135deg, rgba(102, 126, 234, 1), rgba(118, 75, 162, 1))',
         }}>
             {documentSideBar}
-            {!isChannel && !workSpaceSelected && <HomeChat />}
-            {!isChannel && workSpaceSelected && <DisplayDocuments folderId={2} />}
-            {isChannel && !workSpaceSelected && <Discussions channelId='hepj' />}
+            {isChannel && !workSpaceSelected && <HomeChat />}
+            {isChannel > 0 && workSpaceSelected && <DisplayDocuments folderId={2} />}
+            {!isChannel && !workSpaceSelected && <Discussions id={isChannel} />}
             {sideBar}
         </Box>
     );
