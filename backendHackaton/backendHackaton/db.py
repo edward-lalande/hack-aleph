@@ -116,6 +116,3 @@ class Database:
 
     def execute(self, cmd):
         return self.conn.cursor().execute(cmd)
-
-
-datab = Database()
