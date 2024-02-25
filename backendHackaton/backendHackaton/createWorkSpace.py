@@ -13,7 +13,7 @@ class CreateWorkSpace(APIView):
     def post(self, request):
         userHash = request.data.get('user_hash')
         
-        conn = sqlite3.connect("dasck.db")
+        conn = sqlite3.connect("dask.db")
         cursor = conn.cursor()
         workSpaceName = "Nouvel Espace"
         cursor.execute("SELECT * FROM folders WHERE name=\"" + workSpaceName + "\"")
