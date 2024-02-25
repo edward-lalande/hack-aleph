@@ -8,7 +8,7 @@ interface Message {
     content: string;
 };
 
-const Discussions: React.FC<{ id: number }> = (id) => {
+const Discussions: React.FC = () => {
 
     const [messages, setMessages] = useState<Message[]>([]);
     const [valText, setValText] = useState('');
@@ -44,7 +44,7 @@ const Discussions: React.FC<{ id: number }> = (id) => {
         const body = {
             'user_hash': "0xabe50DeDc380716a0c18D06840C3FA9E8B682237",
             'content': content,
-            'channel_id': id
+            'channel_id': 1
         };
 
         axios.post('http://127.0.0.1:8000/add-channel/', body)
