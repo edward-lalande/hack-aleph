@@ -6,17 +6,20 @@ import sqlite3
 class CreateChannel(APIView):
     def post(self, request):
         userHash = request.data.get('user_hash')
-        channelName = "Nouveau Canal"
         
         conn = sqlite3.connect("dask.db")
         cursor = conn.cursor()
+        channelName = "Nouveau Channel"
+        cursor.execute("CREATE TABLE IF NOT EXISTS channels (owner_id TEXT, channel_id INTEGER PRIMARY KEY , name TEXT, created_at TEXT, updated_at TEXT)")
         cursor.execute("SELECT * FROM channels WHERE name=\"" + channelName + "\"")
 
         for i in range (len(cursor.fetchall()) != 0):
-            channelName = "Nouveau Canal" + str(i)
+            channelName = "Nouveau Channel " + str(i)
             cursor.execute("SELECT * FROM channels WHERE name=\"" + channelName + "\"")
 
         cursor.execute("SELECT * FROM channels WHERE name=\"" + channelName + "\"")
         cursor.execute("INSERT INTO channels (owner_id, name) VALUES (\"" + userHash + "\", \"" + channelName + "\")")
+        conn.commit()
         cursor.close()
-        return Response({'message': channel_name}, status=status.HTTP_200_OK)
+        return Response({'message': 'Channel créé avec succès!'}, status=status.HTTP_200_OK)
+

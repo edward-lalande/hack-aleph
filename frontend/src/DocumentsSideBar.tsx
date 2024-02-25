@@ -4,31 +4,29 @@ import axios from 'axios'
 
 interface Workspace {
     ownerId: string;
-    channelId: string;
+    channelId: number;
     name: string;
+    createdAt: number;
+    updatedAt: number;
+    favorite: boolean
 }
 
 const DocumentsSideBar: React.FC = () => {
     const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
 
-    const workSpace = (name: string, index: number) => (
+    const workSpace = (workspace: Workspace, index: number) => (
         <ListItemButton key={index}>
             <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "white"}}>
                 <img src="folder.svg" alt="folder"/>
             </ListItemIcon>
-            <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>{name}</Typography>
+            <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>{workspace.name}</Typography>
         </ListItemButton>
     );
 
     const getWorkSpace = () => {
         axios.get("http://127.0.0.1:8000/get-work-space/0xabe50DeDc380716a0c18D06840C3FA9E8B682237")
         .then(rep => {
-            if (typeof(rep.data) === "string") {
-                setWorkspaces(JSON.parse(rep.data));
-            } else {
-                setWorkspaces(rep.data);
-            }
-            console.log(rep.data);
+            setWorkspaces(rep.data);
         }).catch(err => {
             console.log(err);
         })
@@ -80,7 +78,7 @@ const DocumentsSideBar: React.FC = () => {
             </Button>
             <List sx={{ flexGrow: 1 }}>
                 {workspaces && workspaces.map((workspace, index) => (
-                    workSpace(workspace.name, index)
+                    workSpace(workspace, index)
                 ))}
             </List>
             <Button

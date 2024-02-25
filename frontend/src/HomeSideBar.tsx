@@ -1,7 +1,55 @@
-import React from 'react';
-import { Box, Avatar, Typography, List, ListItemButton, ListItemIcon } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Avatar, Typography, Button, List, ListItemButton, ListItemIcon } from '@mui/material';
+import axios from 'axios';
+import { ClassOutlined } from '@mui/icons-material';
+
+interface Channel {
+    ownerId: string;
+    channelId: number;
+    name: string;
+    createdAt: number;
+    updatedAt: number;
+}
+
+const ChannelComponent: React.FC<{ channel: Channel }> = ({channel}) => (
+    <ListItemButton>
+        <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "#858585"}}>
+            <img src="write.svg" alt="write"/>
+        </ListItemIcon>
+        <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>{channel.name}</Typography>
+    </ListItemButton>
+);
 
 const HomeSideBar: React.FC = () => {
+    const [channels, setChannels] = useState<Channel[]>([]);
+
+    const getChannel = () => {
+        axios.get("http://127.0.0.1:8000/get-channel/0xabe50DeDc380716a0c18D06840C3FA9E8B682237")
+        .then(rep => {
+            setChannels(rep.data);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    const createChannel = () => {
+        const body = {
+            'user_hash': "0xabe50DeDc380716a0c18D06840C3FA9E8B682237",
+        };
+        
+        axios.post('http://127.0.0.1:8000/add-channel/', body)
+        .then(rep => {
+            console.log(rep);
+            getChannel();
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    useEffect(() => {
+        getChannel();
+    }, []);
+
     return (
         <Box sx={{
             display: "flex",
@@ -32,24 +80,9 @@ const HomeSideBar: React.FC = () => {
                 </Box>
             </Box>
             <List sx={{ flexGrow: 1 }}>
-                <ListItemButton>
-                    <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "#858585"}}>
-                        <img src="write.svg" alt="write"/>
-                    </ListItemIcon>
-                    <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>Demande d'acc...</Typography>
-                </ListItemButton>
-                <ListItemButton>
-                    <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "#858585"}}>
-                        <img src="write.svg" alt="write"/>
-                    </ListItemIcon>
-                    <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>Comment s'app...</Typography>
-                </ListItemButton>
-                <ListItemButton>
-                    <ListItemIcon sx={{height: "1.4vw", width: "1.4vw", color: "#858585"}}>
-                        <img src="write.svg" alt="write"/>
-                    </ListItemIcon>
-                    <Typography sx={{fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white"}}>Qui a été élu le 1...</Typography>
-                </ListItemButton>
+                {channels && channels.map((channel, index) => (
+                    <ChannelComponent key={index} channel={channel}/>
+                ))}
             </List>
         </Box>
     );

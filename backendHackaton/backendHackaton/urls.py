@@ -17,7 +17,7 @@ urlpatterns = [
     path('add-message/', CreateMessage.as_view(), name="createMessage"),
     path('add-work-space/', CreateWorkSpace.as_view(), name="addWorkspace"),
 
-    path('get-channel/', GetChannel.as_view(), name="getChannel"),
+    path('get-channel/<str:id>/', GetChannel.as_view(), name="getChannel"),
     path('get-document/', GetDocument.as_view(), name="getDocument"),
     path('get-message/', GetMessage.as_view(),name="getMessage"),
     path('get-work-space/<str:id>/', GetWorkSpace.as_view(),name="getWorkSpace"),
