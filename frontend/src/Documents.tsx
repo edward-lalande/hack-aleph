@@ -3,6 +3,7 @@ import DocumentsSideBar from './DocumentsSideBar';
 import { Box, Divider } from '@mui/material';
 
 const Documents: React.FC = () => {
+
     return (
         <Box sx={{
             display: "flex",

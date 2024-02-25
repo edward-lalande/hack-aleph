@@ -4,6 +4,7 @@ import { Box, Typography, Button, ListItemButton, List, ListItemIcon, Icon, Avat
 import axios from 'axios';
 import DisplayDocuments from './DisplayDocuments';
 import Discussions from './Discussions';
+import { channel } from 'diagnostics_channel';
 
 interface Workspace {
     createdAt: number;
@@ -152,6 +153,41 @@ const Home: React.FC = () => {
             </Button>
         </Box>
     );
+
+    // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    const [isChannel, setIsChannel] = useState(0);
+
+    const ChannelComponent: React.FC<{ channel: Channel }> = ({ channel }) => (
+        <ListItemButton onClick={() => setIsChannel(channel.channelId) }>
+            <ListItemIcon sx={{ height: "1.4vw", width: "1.4vw", color: "#858585" }}>
+                <img src="write.svg" alt="write" />
+            </ListItemIcon>
+            <Typography sx={{ fontFamily: 'Montserrat', fontSize: "1vw", fontWeight: 500, color: "white" }}>{channel.name}</Typography>
+        </ListItemButton>
+    );
+    const [channels, setChannels] = useState<Channel[]>([]);
+    const getChannel = () => {
+        axios.get("http://127.0.0.1:8000/get-channel/0xabe50DeDc380716a0c18D06840C3FA9E8B682237")
+            .then(rep => {
+                setChannels(rep.data);
+            }).catch(err => {
+                console.log(err);
+            })
+    }
+
+    const createChannel = () => {
+        const body = {
+            'user_hash': "0xabe50DeDc380716a0c18D06840C3FA9E8B682237",
+        };
+
+        axios.post('http://127.0.0.1:8000/add-channel/', body)
+            .then(rep => {
+                console.log(rep);
+                getChannel();
+            }).catch(err => {
+                console.log(err);
+            })
+    }
 
     const sideBar = (
         <Box sx={{
